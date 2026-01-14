@@ -113,6 +113,7 @@ const Index = () => {
                   variant="teal-outline"
                   size="lg"
                   className="text-lg px-8"
+                  onClick={() => window.location.href = '/explore'}
                 >
                   <Film size={20} />
                   Explorar catálogo

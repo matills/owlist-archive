@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -8,9 +9,9 @@ import logo from "@/assets/logo.png";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { label: "Características", href: "#features" },
-  { label: "Catálogo", href: "#catalog" },
-  { label: "Logros", href: "#achievements" },
+  { label: "Características", href: "/#features" },
+  { label: "Catálogo", href: "/explore" },
+  { label: "Logros", href: "/#achievements" },
 ];
 
 export const Navbar: React.FC = () => {
@@ -41,7 +42,7 @@ export const Navbar: React.FC = () => {
       <div className="container mx-auto px-4 md:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <a href="/" className="flex items-center gap-2 group">
+          <Link to="/" className="flex items-center gap-2 group">
             <img
               src={logo}
               alt="Owlist Logo"
@@ -50,47 +51,28 @@ export const Navbar: React.FC = () => {
             <span className="font-display text-xl md:text-2xl font-bold text-foreground">
               Owlist
             </span>
-          </a>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-foreground font-medium hover:text-secondary transition-colors duration-200"
-              >
-                {link.label}
-              </a>
-            ))}
-          </div>
-
-          {/* Desktop Auth Buttons */}
-          <div className="hidden md:flex items-center gap-3">
-            {user ? (
-              <>
-                <span className="text-foreground font-medium">
-                  Hola, {user.username || user.email}
-                </span>
-                <Button variant="ghost" onClick={logout}>
-                  Cerrar sesión
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button
-                  variant="teal-outline"
-                  onClick={() => openModal("login")}
+            {navLinks.map((link) => 
+              link.href.startsWith('/') && !link.href.includes('#') ? (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  className="text-foreground font-medium hover:text-secondary transition-colors duration-200"
                 >
-                  Iniciar Sesión
-                </Button>
-                <Button
-                  variant="coral"
-                  onClick={() => openModal("signup")}
+                  {link.label}
+                </Link>
+              ) : (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="text-foreground font-medium hover:text-secondary transition-colors duration-200"
                 >
-                  Registrarse
-                </Button>
-              </>
+                  {link.label}
+                </a>
+              )
             )}
           </div>
 
@@ -113,16 +95,27 @@ export const Navbar: React.FC = () => {
           className="md:hidden overflow-hidden"
         >
           <div className="py-4 space-y-4">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="block text-foreground font-medium hover:text-secondary transition-colors py-2"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {link.label}
-              </a>
-            ))}
+            {navLinks.map((link) => 
+              link.href.startsWith('/') && !link.href.includes('#') ? (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  className="block text-foreground font-medium hover:text-secondary transition-colors py-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="block text-foreground font-medium hover:text-secondary transition-colors py-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {link.label}
+                </a>
+              )
+            )}
             <div className="pt-4 space-y-3 border-t border-foreground/10">
               {user ? (
                 <Button variant="ghost" className="w-full" onClick={logout}>
