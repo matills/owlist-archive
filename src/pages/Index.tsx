@@ -60,6 +60,12 @@ const features = [
   },
 ];
 
+const stats = [
+  { value: "50K+", label: "Usuarios activos" },
+  { value: "100K+", label: "Títulos catalogados" },
+  { value: "1M+", label: "Reseñas escritas" },
+  { value: "500+", label: "Logros desbloqueables" },
+];
 
 const Index = () => {
   const { openModal } = useModalStore();
@@ -112,6 +118,23 @@ const Index = () => {
                   <Film size={20} />
                   Explorar catálogo
                 </Button>
+              </div>
+
+              <div className="flex items-center gap-6 mt-8 justify-center lg:justify-start">
+                <div className="flex -space-x-3">
+                  {[1, 2, 3, 4].map((i) => (
+                    <div
+                      key={i}
+                      className="w-10 h-10 rounded-full bg-card border-2 border-background flex items-center justify-center text-xs font-bold text-foreground"
+                    >
+                      {i}K
+                    </div>
+                  ))}
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  <span className="font-semibold text-foreground">+50,000</span>{" "}
+                  usuarios activos
+                </p>
               </div>
             </motion.div>
 
@@ -186,6 +209,28 @@ const Index = () => {
         <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-primary/5 to-transparent -z-10" />
       </section>
 
+      {/* Stats Section */}
+      <section className="py-12 bg-foreground">
+        <div className="container mx-auto px-4 md:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((stat, i) => (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="text-center"
+              >
+                <p className="font-display text-3xl md:text-4xl font-bold text-primary mb-1">
+                  {stat.value}
+                </p>
+                <p className="text-background/70 text-sm">{stat.label}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Features Section */}
       <section id="features" className="py-20 md:py-32">
